@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using UnityEngine;
 using Cinemachine;
 using System;
@@ -26,8 +27,9 @@ namespace Meangpu
         [SerializeField] float _rotationSpeed = 90f;
         [SerializeField] float _dragSpeed = 2;
 
+        [Header("Zoom")]
+        [SerializeField] ZoomType _zoomType = ZoomType.MOVE_ClOSER;
         [Header("ZoomFOV")]
-        [SerializeField] bool _isZoomUseFOV = true;
         [SerializeField] float _fovZoomSpeed = 5;
         [SerializeField] float _fovZoomSmoothFactor = 2;
         [SerializeField] float _fovZoomMax = 60;
@@ -37,13 +39,18 @@ namespace Meangpu
         [SerializeField] float _zoomMoveMax = 50;
         [SerializeField] float _zoomMoveMin = 5;
         [SerializeField] float _ZoomMoveSmoothFactor = 2;
+        [Header("Zoom lower y")]
+        [SerializeField] float _zoomLowerYSpeed = 2;
+        [SerializeField] float _zoomLowerYMax = 50;
+        [SerializeField] float _zoomLowerYMin = 5;
+        [SerializeField] float _ZoomLowerYSmoothFactor = 2;
 
         bool _isDragging;
         float _rotateDirection;
         float _targetFOV = 60;
         Vector3 _zoomMoveDirection = new();
         Vector3 _zoomFollowOffset = new();
-        // float _targetZoomMove = 60;
+
         Vector2 _lastMousePos;
         Vector2 _mousePosDelta;
         Vector3 _rotateVector = new();
@@ -62,15 +69,41 @@ namespace Meangpu
         {
             HandleCamMovement();
             HandleCamRotate();
-            if (_isZoomUseFOV) HandleCameraZoom_FOV();
-            else HandleCameraZoom_MoveForward();
+            HandleZoom();
+        }
+
+        private void HandleZoom()
+        {
+            switch (_zoomType)
+            {
+                case ZoomType.FOV:
+                    HandleCameraZoom_FOV();
+                    break;
+                case ZoomType.MOVE_ClOSER:
+                    HandleCameraZoom_MoveForward();
+                    break;
+                case ZoomType.LOWER_Y_VALUE:
+                    HandleCameraZoom_MoveYLower();
+                    break;
+            }
+        }
+
+        private void HandleCameraZoom_MoveYLower()
+        {
+            // _zoomFollowOffset = _zoomFollowOffset.normalized;
+            if (Input.mouseScrollDelta.y < 0) _zoomFollowOffset.y += _zoomLowerYSpeed * _zoomLowerYSpeed;
+            if (Input.mouseScrollDelta.y > 0) _zoomFollowOffset.y -= _zoomLowerYSpeed * _zoomLowerYSpeed;
+
+            _zoomFollowOffset.y = Mathf.Clamp(_zoomFollowOffset.y, _zoomLowerYMin, _zoomLowerYMax);
+
+            _cinemachineTranspose.m_FollowOffset = Vector3.Lerp(_cinemachineTranspose.m_FollowOffset, _zoomFollowOffset, Time.deltaTime * _ZoomLowerYSmoothFactor);
         }
 
         private void HandleCameraZoom_MoveForward()
         {
             _zoomMoveDirection = _zoomFollowOffset.normalized;
-            if (Input.mouseScrollDelta.y < 0) _zoomFollowOffset += _zoomMoveDirection * _zoomMoveSpeed;// mouse up
-            if (Input.mouseScrollDelta.y > 0) _zoomFollowOffset -= _zoomMoveDirection * _zoomMoveSpeed;// mouse down
+            if (Input.mouseScrollDelta.y < 0) _zoomFollowOffset += _zoomMoveDirection * _zoomMoveSpeed; // mouse up
+            if (Input.mouseScrollDelta.y > 0) _zoomFollowOffset -= _zoomMoveDirection * _zoomMoveSpeed; // mouse down
 
             if (_zoomFollowOffset.magnitude < _zoomMoveMin) _zoomFollowOffset = _zoomMoveDirection * _zoomMoveMin;
             if (_zoomFollowOffset.magnitude > _zoomMoveMax) _zoomFollowOffset = _zoomMoveDirection * _zoomMoveMax;
@@ -144,5 +177,10 @@ namespace Meangpu
             if (Input.mousePosition.x > Screen.width - _edgeSize) _inputDirection.x = 1;
             if (Input.mousePosition.y > Screen.height - _edgeSize) _inputDirection.z = 1;
         }
+    }
+
+    public enum ZoomType
+    {
+        FOV, MOVE_ClOSER, LOWER_Y_VALUE
     }
 }
