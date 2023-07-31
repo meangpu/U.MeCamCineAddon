@@ -1,7 +1,8 @@
-using System;
 using UnityEngine;
+using Cinemachine;
+using System;
 
-namespace Meangpu.Util
+namespace Meangpu
 {
     public class CameraPan : MonoBehaviour
     {
@@ -11,38 +12,80 @@ namespace Meangpu.Util
         /// to make it 45 degree change in "body offset" of cinemachine
         /// </summary>
         ///
+        [Header("Cinemachine target for zoom")]
+        [SerializeField]
+        CinemachineVirtualCamera _cinemachineCam;
+
+        [Header("Setting")]
         [SerializeField] Transform _targetTransform;
         [SerializeField] bool _useEdgeScroll = true;
         [SerializeField] bool _useDragPan = true;
+        [Header("Speed")]
         [SerializeField] float _edgeSize = 20f;
         [SerializeField] float _panSpeed = 10f;
         [SerializeField] float _rotationSpeed = 90f;
         [SerializeField] float _dragSpeed = 2;
 
+        [Header("ZoomFOV")]
+        [SerializeField] bool _isZoomUseFOV = true;
+        [SerializeField] float _fovZoomSpeed = 5;
+        [SerializeField] float _fovZoomSmoothFactor = 2;
+        [SerializeField] float _fovZoomMax = 60;
+        [SerializeField] float _fovZoomMin = 10;
+        [Header("Zoom move")]
+        [SerializeField] float _zoomMoveSpeed = 5;
+        [SerializeField] float _zoomMoveMax = 50;
+        [SerializeField] float _zoomMoveMin = 5;
+        [SerializeField] float _ZoomMoveSmoothFactor = 2;
+
         bool _isDragging;
         float _rotateDirection;
+        float _targetFOV = 60;
+        Vector3 _zoomMoveDirection = new();
+        Vector3 _zoomFollowOffset = new();
+        // float _targetZoomMove = 60;
         Vector2 _lastMousePos;
         Vector2 _mousePosDelta;
         Vector3 _rotateVector = new();
         Vector3 _moveDirection = new();
         Vector3 _inputDirection = new();
+        CinemachineTransposer _cinemachineTranspose;
 
         private void Start()
         {
             if (_targetTransform == null) _targetTransform = transform;
+            _cinemachineTranspose = _cinemachineCam.GetCinemachineComponent<CinemachineTransposer>();
+            _zoomFollowOffset = _cinemachineTranspose.m_FollowOffset;
         }
 
         private void Update()
         {
             HandleCamMovement();
             HandleCamRotate();
-            HandleCameraZoom();
+            if (_isZoomUseFOV) HandleCameraZoom_FOV();
+            else HandleCameraZoom_MoveForward();
         }
 
-        private void HandleCameraZoom()
+        private void HandleCameraZoom_MoveForward()
         {
-            // if (Input.mouseScrollDelta.y > 0) _offset += _scrollZoomSpeed;// mouse up
-            // if (Input.mouseScrollDelta.y < 0) _offset -= _scrollZoomSpeed;// mouse down
+            _zoomMoveDirection = _zoomFollowOffset.normalized;
+            if (Input.mouseScrollDelta.y < 0) _zoomFollowOffset += _zoomMoveDirection * _zoomMoveSpeed;// mouse up
+            if (Input.mouseScrollDelta.y > 0) _zoomFollowOffset -= _zoomMoveDirection * _zoomMoveSpeed;// mouse down
+
+            if (_zoomFollowOffset.magnitude < _zoomMoveMin) _zoomFollowOffset = _zoomMoveDirection * _zoomMoveMin;
+            if (_zoomFollowOffset.magnitude > _zoomMoveMax) _zoomFollowOffset = _zoomMoveDirection * _zoomMoveMax;
+
+            _cinemachineTranspose.m_FollowOffset = Vector3.Lerp(_cinemachineTranspose.m_FollowOffset, _zoomFollowOffset, Time.deltaTime * _ZoomMoveSmoothFactor);
+        }
+
+        private void HandleCameraZoom_FOV()
+        {
+            if (Input.mouseScrollDelta.y < 0) _targetFOV += _fovZoomSpeed;// mouse up
+            if (Input.mouseScrollDelta.y > 0) _targetFOV -= _fovZoomSpeed;// mouse down
+
+            _targetFOV = Mathf.Clamp(_targetFOV, _fovZoomMin, _fovZoomMax);
+
+            _cinemachineCam.m_Lens.FieldOfView = Mathf.Lerp(_cinemachineCam.m_Lens.FieldOfView, _targetFOV, Time.deltaTime * _fovZoomSmoothFactor);
         }
 
         private void HandleCamRotate()
