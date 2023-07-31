@@ -1,12 +1,12 @@
 {
-    "name": "Meangpu.Editor",
+    "name": "Meangpu.CamAddon",
     "rootNamespace": "",
-    "references": [],
-    "includePlatforms": [
-        "Editor"
+    "references": [
+        "GUID:4307f53044263cf4b835bd812fc161a4"
     ],
+    "includePlatforms": [],
     "excludePlatforms": [],
-    "allowUnsafeCode": true,
+    "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,

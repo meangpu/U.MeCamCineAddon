@@ -1,21 +1,16 @@
 {
-  "name": "com.meangpu.tools",
+  "name": "com.meangpu.cam_addon",
   "version": "0.0.1",
   "unity": "2021.3",
-  "displayName": "MeTools",
-  "description": "the helpful des \n very use ful",
+  "displayName": "MeCamCineAddOn",
+  "description": "Add on of cinemachine package",
   "type": "template",
   "author": {
     "name": "meangpu",
     "url": "https://github.com/meangpu"
   },
   "dependencies": {
-    "com.unity.textmeshpro": "3.0.6"
-  },
-  "samples": [
-    {
-      "displayName": "ColorSet",
-      "path": "Samples~/ColorSet"
-    }
-  ]
+    "com.unity.textmeshpro": "3.0.6",
+    "com.unity.cinemachine": "2.9.7"
+  }
 }

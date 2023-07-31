@@ -3,5 +3,5 @@
 install via
 
 ```text
-https://github.com/meangpu/U.MePackage.git
+https://github.com/meangpu/U.MeCamCineAddon.git
 ```
