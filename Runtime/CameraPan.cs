@@ -22,26 +22,26 @@ namespace Meangpu
         [Header("Speed")]
         [SerializeField] float _edgeSize = 20f;
         [SerializeField] float _panSpeed = 10f;
-        [SerializeField] float _rotationSpeed = 90f;
-        [SerializeField] float _dragSpeed = 2;
+        [SerializeField] float _rotationSpeed = 180f;
+        [SerializeField] float _dragSpeed = 10;
 
         [Header("Zoom")]
         [SerializeField] ZoomType _zoomType = ZoomType.MOVE_ClOSER;
         [Header("ZoomFOV")]
         [SerializeField] float _fovZoomSpeed = 5;
-        [SerializeField] float _fovZoomSmoothFactor = 2;
+        [SerializeField] float _fovZoomSmoothFactor = 10;
         [SerializeField] float _fovZoomMax = 60;
         [SerializeField] float _fovZoomMin = 10;
         [Header("Zoom move")]
         [SerializeField] float _zoomMoveSpeed = 5;
         [SerializeField] float _zoomMoveMax = 50;
         [SerializeField] float _zoomMoveMin = 5;
-        [SerializeField] float _ZoomMoveSmoothFactor = 2;
+        [SerializeField] float _ZoomMoveSmoothFactor = 10;
         [Header("Zoom lower y")]
         [SerializeField] float _zoomLowerYSpeed = 2;
         [SerializeField] float _zoomLowerYMax = 50;
         [SerializeField] float _zoomLowerYMin = 5;
-        [SerializeField] float _ZoomLowerYSmoothFactor = 2;
+        [SerializeField] float _ZoomLowerYSmoothFactor = 10;
 
         bool _isDragging;
         float _rotateDirection;
