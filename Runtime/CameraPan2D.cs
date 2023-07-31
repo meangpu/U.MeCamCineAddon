@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Cinemachine;
 
@@ -20,7 +21,11 @@ namespace Meangpu
         [SerializeField] float _edgeSize = 20f;
         [SerializeField] float _panSpeed = 10f;
         [SerializeField] float _dragSpeed = 10;
-
+        [Header("Clamp Screen")]
+        [SerializeField] bool _isClampX;
+        [SerializeField] bool _isClampY;
+        [SerializeField] Vector2 _clampMinMaxXPos = new();
+        [SerializeField] Vector2 _clampMinMaxYPos = new();
         [Header("ZoomFOV")]
         [Tooltip("start zoom value")]
         [SerializeField] float _targetFOV = 10;
@@ -33,6 +38,7 @@ namespace Meangpu
 
         Vector2 _lastMousePos;
         Vector2 _mousePosDelta;
+        Vector3 _targetPosition = new();
         Vector3 _moveDirection = new();
         Vector3 _inputDirection = new();
 
@@ -66,7 +72,12 @@ namespace Meangpu
             if (_useDragPan) HandleDragMove();
 
             _moveDirection = (_targetTransform.up * _inputDirection.y) + (_targetTransform.right * _inputDirection.x);
-            _targetTransform.transform.position += _moveDirection * _panSpeed * Time.deltaTime;
+            _targetPosition += _moveDirection * _panSpeed * Time.deltaTime;
+
+            if (_isClampX) _targetPosition.x = Mathf.Clamp(_targetPosition.x, _clampMinMaxXPos.x, _clampMinMaxXPos.y);
+            if (_isClampY) _targetPosition.y = Mathf.Clamp(_targetPosition.y, _clampMinMaxYPos.x, _clampMinMaxYPos.y);
+
+            _targetTransform.transform.position = _targetPosition;
         }
 
         private void HandleKeyboardInput()
