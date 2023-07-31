@@ -19,6 +19,10 @@ namespace Meangpu
         [SerializeField] Transform _targetTransform;
         [SerializeField] bool _useEdgeScroll = true;
         [SerializeField] bool _useDragPan = true;
+        [SerializeField] bool _useKeyboard = true;
+        [SerializeField] bool _allowRotation = true;
+        [SerializeField] bool _allowMove = true;
+        [SerializeField] bool _allowZoom = true;
         [Header("Speed")]
         [SerializeField] float _edgeSize = 20f;
         [SerializeField] float _panSpeed = 10f;
@@ -28,6 +32,8 @@ namespace Meangpu
         [Header("Zoom")]
         [SerializeField] ZoomType _zoomType = ZoomType.MOVE_ClOSER;
         [Header("ZoomFOV")]
+        [Tooltip("start zoom value")]
+        [SerializeField] float _targetFOV = 60;
         [SerializeField] float _fovZoomSpeed = 5;
         [SerializeField] float _fovZoomSmoothFactor = 10;
         [SerializeField] float _fovZoomMax = 60;
@@ -45,7 +51,6 @@ namespace Meangpu
 
         bool _isDragging;
         float _rotateDirection;
-        float _targetFOV = 60;
         Vector3 _zoomMoveDirection = new();
         Vector3 _zoomFollowOffset = new();
 
@@ -65,9 +70,9 @@ namespace Meangpu
 
         private void Update()
         {
-            HandleCamMovement();
-            HandleCamRotate();
-            HandleZoom();
+            if (_allowMove) HandleCamMovement();
+            if (_allowRotation) HandleCamRotate();
+            if (_allowZoom) HandleZoom();
         }
 
         private void HandleZoom()
@@ -82,6 +87,9 @@ namespace Meangpu
                     break;
                 case ZoomType.LOWER_Y_VALUE:
                     HandleCameraZoom_MoveYLower();
+                    break;
+                case ZoomType.ORTHO_ZOOM2D:
+                    HandleCameraZoom_ORTHO();
                     break;
             }
         }
@@ -119,6 +127,16 @@ namespace Meangpu
             _cinemachineCam.m_Lens.FieldOfView = Mathf.Lerp(_cinemachineCam.m_Lens.FieldOfView, _targetFOV, Time.deltaTime * _fovZoomSmoothFactor);
         }
 
+        private void HandleCameraZoom_ORTHO()
+        {
+            if (Input.mouseScrollDelta.y < 0) _targetFOV += _fovZoomSpeed;// mouse up
+            if (Input.mouseScrollDelta.y > 0) _targetFOV -= _fovZoomSpeed;// mouse down
+
+            _targetFOV = Mathf.Clamp(_targetFOV, _fovZoomMin, _fovZoomMax);
+
+            _cinemachineCam.m_Lens.OrthographicSize = Mathf.Lerp(_cinemachineCam.m_Lens.OrthographicSize, _targetFOV, Time.deltaTime * _fovZoomSmoothFactor);
+        }
+
         private void HandleCamRotate()
         {
             _rotateDirection = 0;
@@ -132,8 +150,8 @@ namespace Meangpu
         private void HandleCamMovement()
         {
             _inputDirection.Set(0, 0, 0);
-            HandleKeyboardInput();
 
+            if (_useKeyboard) HandleKeyboardInput();
             if (_useEdgeScroll) HandleEdgeScroll();
             if (_useDragPan) HandleDragMove();
 
@@ -175,10 +193,5 @@ namespace Meangpu
             if (Input.mousePosition.x > Screen.width - _edgeSize) _inputDirection.x = 1;
             if (Input.mousePosition.y > Screen.height - _edgeSize) _inputDirection.z = 1;
         }
-    }
-
-    public enum ZoomType
-    {
-        FOV, MOVE_ClOSER, LOWER_Y_VALUE
     }
 }
