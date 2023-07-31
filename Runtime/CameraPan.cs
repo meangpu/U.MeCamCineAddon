@@ -1,7 +1,5 @@
-using System.Diagnostics;
 using UnityEngine;
 using Cinemachine;
-using System;
 
 namespace Meangpu
 {
