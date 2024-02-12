@@ -154,7 +154,7 @@ namespace FirstGearGames.SmoothCameraShaker
         /// </summary>
         public ShakeData Data { get; private set; }
         /// <summary>
-        /// 
+        ///
         /// </summary>
         private bool _paused;
         /// <summary>
@@ -229,9 +229,8 @@ namespace FirstGearGames.SmoothCameraShaker
                 );
         }
 
-        private bool _first = true;
         /// <summary>
-        /// Returns a new offset for this instnace.
+        /// Returns a new offset for this instance.
         /// </summary>
         /// <returns></returns>
         internal Vector3 UpdateOffset()
@@ -319,7 +318,7 @@ namespace FirstGearGames.SmoothCameraShaker
             }
         }
         /// <summary>
-        /// Returns a roughness mulitplier based on the roughness curve and time passed.
+        /// Returns a roughness multiplier based on the roughness curve and time passed.
         /// </summary>
         /// <returns></returns>
         private float ReturnRoughnessCurveMultiplier(float deltaTime)
@@ -400,9 +399,9 @@ namespace FirstGearGames.SmoothCameraShaker
             {
                 float remaining = Data.TotalDuration - _timePassed;
                 /* If remaining is less than new fade
-                 * duration then let remaining end unmodified. 
+                 * duration then let remaining end unmodified.
                  * Otherwise snap to new fade out duration.
-                 * In the future rather than abrutply
+                 * In the future rather than abruptly
                  * skipping time fade out will be speed up to match
                  * new time. */
                 if (remaining > fadeDuration)
@@ -417,7 +416,7 @@ namespace FirstGearGames.SmoothCameraShaker
         }
 
         /// <summary>
-        /// Multiplies magnitude values in data by a set amount. 
+        /// Multiplies magnitude values in data by a set amount.
         /// </summary>
         /// <param name="multiplier">Value to multiply by. 1f is standard multiplication, which in result would be default values.</param>
         /// <param name="moveRate">How quickly per second to move towards new multiplier. Values 0f and lower are instant.</param>
@@ -427,7 +426,7 @@ namespace FirstGearGames.SmoothCameraShaker
             _magnitudeMultiplier.SetValues(multiplier, moveRate, rateUsesDistance);
         }
         /// <summary>
-        /// Multiplies roughness values in data by a set amount. 
+        /// Multiplies roughness values in data by a set amount.
         /// </summary>
         /// <param name="multiplier">Value to multiply by. 1f is standard multiplication, which in result would be default values.</param>
         /// <param name="moveRate">How quickly per second to move towards new multiplier. Values 0f and lower are instant.</param>

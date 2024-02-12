@@ -9,8 +9,10 @@ call shake by
 
 ```C
 [SerializeField] private ShakeData _shakeData = null;
+
 void Shake()
 {
     ShakerInstance instance = CameraShakerHandler.Shake(_shakeData);
+    CameraShakerHandler.Shake(_shakeData);
 }
 ```

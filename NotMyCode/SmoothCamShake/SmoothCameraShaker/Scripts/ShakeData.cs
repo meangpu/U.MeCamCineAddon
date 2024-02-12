@@ -5,8 +5,7 @@ using UnityEngine.Serialization;
 
 namespace FirstGearGames.SmoothCameraShaker
 {
-
-    [CreateAssetMenu(fileName = "NewCameraShake", menuName = "FirstGearGames/Smooth Camera Shaker/Shake Data", order = 1)]
+    [CreateAssetMenu(fileName = "NewCameraShake", menuName = "FirstGearGames/Cam Shake Data", order = 1)]
     public class ShakeData : ScriptableObject
     {
         #region Public.
@@ -22,7 +21,7 @@ namespace FirstGearGames.SmoothCameraShaker
 
         #region Serialized.
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [Tooltip("True to use scaled time, false to use unscaled.")]
         [SerializeField]
@@ -38,7 +37,7 @@ namespace FirstGearGames.SmoothCameraShaker
 
         #region Shakables.
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [Tooltip("True to shake cameras.")]
         [SerializeField]
@@ -52,7 +51,7 @@ namespace FirstGearGames.SmoothCameraShaker
             private set { _shakeCameras = value; }
         }
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [Tooltip("True to shake canvases. Canvases must have a ShakableCanvas component attached.")]
         [SerializeField]
@@ -66,7 +65,7 @@ namespace FirstGearGames.SmoothCameraShaker
             private set { _shakeCanvases = value; }
         }
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [Tooltip("True to shake objects such as rigidbodies. Rigidbodies must have a ShakableRigidbody or ShakableRigidbody2D component attached.")]
         [FormerlySerializedAs("_shakeRigidbodies")]
@@ -97,7 +96,7 @@ namespace FirstGearGames.SmoothCameraShaker
             private set { _iterationPercent = value; }
         }
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [Tooltip("True to shake until stopped.")]
         [SerializeField]
@@ -111,7 +110,7 @@ namespace FirstGearGames.SmoothCameraShaker
             private set { _unlimitedDuration = value; }
         }
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [Tooltip("How long the shake will last. If duration is less than fade out and fade in time combined then duration is adjusted to the total of those values.")]
         [SerializeField]
@@ -141,7 +140,7 @@ namespace FirstGearGames.SmoothCameraShaker
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [Tooltip("How long after the start of the shake until it reaches full magnitude. Used to ease into shakes. Works independently from curves. This value is not in addition to TotalDuration.")]
         [SerializeField]
@@ -155,7 +154,7 @@ namespace FirstGearGames.SmoothCameraShaker
             private set { _fadeInDuration = value; }
         }
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [Tooltip("How long at the end of the shake to ease out of shake. Works independently from curves. This value is not in addition to TotalDuration.")]
         [SerializeField]
@@ -169,7 +168,7 @@ namespace FirstGearGames.SmoothCameraShaker
             private set { _fadeOutDuration = value; }
         }
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [Tooltip("A multiplier to apply towards configured settings.")]
         [SerializeField]
@@ -183,7 +182,7 @@ namespace FirstGearGames.SmoothCameraShaker
             private set { _magnitude = value; }
         }
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [Tooltip("Larger noise values will result in more drastic ever-changing magnitude levels during the shake.")]
         [Range(0f, 1f)]
@@ -198,7 +197,7 @@ namespace FirstGearGames.SmoothCameraShaker
             private set { _magnitudeNoise = value; }
         }
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [Tooltip("Percentage curve applied to magnitude over the shake duration.")]
         [SerializeField]
@@ -212,7 +211,7 @@ namespace FirstGearGames.SmoothCameraShaker
             private set { _magnitudeCurve = value; }
         }
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [Tooltip("How quickly to transition between shake offsets. Higher values will result in more violent shakes.")]
         [SerializeField]
@@ -226,7 +225,7 @@ namespace FirstGearGames.SmoothCameraShaker
             private set { _roughness = value; }
         }
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [Tooltip("Larger noise values will result in more drastic ever-changing roughness levels during the shake.")]
         [Range(0f, 1f)]
@@ -241,7 +240,7 @@ namespace FirstGearGames.SmoothCameraShaker
             private set { _roughnessNoise = value; }
         }
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [Tooltip("Percentage curve applied to roughness over the shake duration.")]
         [SerializeField]
@@ -255,7 +254,7 @@ namespace FirstGearGames.SmoothCameraShaker
             private set { _roughnessCurve = value; }
         }
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [Tooltip("Values in either sign which the shake positioning will occur.")]
         [SerializeField]
@@ -269,7 +268,7 @@ namespace FirstGearGames.SmoothCameraShaker
             private set { _positionalInfluence = value; }
         }
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [Tooltip("Positional axes which may be randomly inverted when this ShakeData is instanced.")]
         [SerializeField]
@@ -284,7 +283,7 @@ namespace FirstGearGames.SmoothCameraShaker
             set { _positionalInverts = value; }
         }
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [Tooltip("Values in either sign which the shake rotation will occur.")]
         [SerializeField]
@@ -298,7 +297,7 @@ namespace FirstGearGames.SmoothCameraShaker
             private set { _rotationalInfluence = value; }
         }
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [Tooltip("Rotational axes which may be randomly inverted when this ShakeData is instanced.")]
         [SerializeField]
@@ -313,7 +312,7 @@ namespace FirstGearGames.SmoothCameraShaker
             set { _rotationalInverts = value; }
         }
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [Tooltip("While checked a new starting position and direction is used with every shake; shakes are more randomized. If unchecked shakes are guaranteed to start at the same position, and move the same direction with every shake; configured curves and noise are still applied.")]
         [SerializeField]
@@ -640,8 +639,5 @@ namespace FirstGearGames.SmoothCameraShaker
                 _totalDuration = 1f;
         }
         #endregion
-
-
     }
-
 }

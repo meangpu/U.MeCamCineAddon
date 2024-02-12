@@ -2,8 +2,6 @@
 
 namespace FirstGearGames.Utilities.Objects
 {
-
-
     public class DDOL : MonoBehaviour
     {
         #region Public.

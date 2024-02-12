@@ -2,8 +2,6 @@
 
 namespace FirstGearGames.Utilities.Maths
 {
-
-
     public static class Enums
     {
         /// <summary>

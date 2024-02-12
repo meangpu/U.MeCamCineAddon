@@ -3,14 +3,12 @@ using UnityEngine;
 
 namespace FirstGearGames.Utilities.Maths
 {
-
-
     public static class Floats
     {
         private static System.Random _random = new System.Random();
 
         /// <summary>
-        /// Provides a random inclusive int within a given range. Preferred over Unity's Random to eliminate confusion as Unity uses inclusive for floats max, and exclusive for int max. 
+        /// Provides a random inclusive int within a given range. Preferred over Unity's Random to eliminate confusion as Unity uses inclusive for floats max, and exclusive for int max.
         /// </summary>
         /// <param name="minimum">Inclusive minimum value.</param>
         /// <param name="maximum">Inclusive maximum value.</param>
