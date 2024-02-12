@@ -639,5 +639,9 @@ namespace FirstGearGames.SmoothCameraShaker
                 _totalDuration = 1f;
         }
         #endregion
+
+
+        // meangpu part
+        public void DoShakeThisData() => CameraShakerHandler.Shake(this);
     }
 }

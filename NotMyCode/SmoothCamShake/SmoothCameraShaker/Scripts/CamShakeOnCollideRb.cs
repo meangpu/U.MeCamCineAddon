@@ -1,23 +1,33 @@
+using System.ComponentModel;
 using UnityEngine;
+using VInspector;
 
 namespace FirstGearGames.SmoothCameraShaker
 {
     public class CamShakeOnCollideRb : CamShakeDataHolder
     {
-        [Header("setting")]
-        [Tooltip("If this not true, then use _massScaleMul as default shake value")]
+        [Tooltip("if not use scale it will use 1 as default value")]
         [SerializeField] bool _localScaleInfluenceShake = true;
+
+        [ShowIf("_localScaleInfluenceShake")]
+        [SerializeField] float _massScaleMul = .3f;
+        [EndIf]
+
         [SerializeField] bool _velocityInfluenceShake = true;
 
-        [Header("scaleMultiply")]
-        [SerializeField] float _massScaleMul = .3f;
+        [ShowIf("_velocityInfluenceShake")]
         [SerializeField] float _velocityScaleMul = 1f;
+        [EndIf]
+
+        [SerializeField] int _maxCollisionCount = 1;
+        [SerializeField] int _nowCollisionCount;
+
         private float _mass;
-        private bool _shook = false;
         private Rigidbody _rb;
 
         void Awake()
         {
+            _nowCollisionCount = _maxCollisionCount;
             _rb = GetComponent<Rigidbody>();
             if (_localScaleInfluenceShake)
             {
@@ -25,7 +35,7 @@ namespace FirstGearGames.SmoothCameraShaker
             }
             else
             {
-                _mass = _massScaleMul;
+                _mass = 1;
             }
         }
 
@@ -34,9 +44,9 @@ namespace FirstGearGames.SmoothCameraShaker
 
         private void DoCollisionEntered()
         {
-            if (_shook) return;
+            if (_nowCollisionCount <= 0) return;
 
-            _shook = true;
+            _nowCollisionCount -= 1;
             ShakerInstance instance = CameraShakerHandler.Shake(Data);
             float _finalMultiply = GetShakeMultiplier();
             instance.MultiplyMagnitude(_finalMultiply, -1);
@@ -48,6 +58,6 @@ namespace FirstGearGames.SmoothCameraShaker
             else return _mass;
         }
 
-        public void ResetShake() => _shook = false;
+        [Button] public void ResetShake() => _nowCollisionCount = _maxCollisionCount;
     }
 }

@@ -16,3 +16,9 @@ void Shake()
     CameraShakerHandler.Shake(_shakeData);
 }
 ```
+
+this package is much more better than my code cause it
+
+- can be work in VR
+- can make object also shake not just camera
+- like shake and fall off table
