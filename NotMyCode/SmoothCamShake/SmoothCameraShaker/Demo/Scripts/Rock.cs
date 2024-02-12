@@ -24,15 +24,10 @@ namespace FirstGearGames.SmoothCameraShaker.Demo
 
         private void DoCollisionEntered()
         {
-            if (_shook)
-                return;
+            if (_shook) return;
             _shook = true;
-
             ShakerInstance instance = CameraShakerHandler.Shake(_shakeData);
-            instance.Data.SetShakeCanvases(CanvasButtonActions.ShakeCanvas);
-            instance.Data.SetShakeRigidbodies(CanvasButtonActions.ShakeRigidbodies);
             instance.MultiplyMagnitude(_mass, -1);
-
         }
 
         public override void PerformReset()
