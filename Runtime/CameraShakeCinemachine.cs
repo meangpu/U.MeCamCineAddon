@@ -4,7 +4,7 @@ using Cinemachine;
 namespace Meangpu
 {
     [RequireComponent(typeof(CinemachineVirtualCamera))]
-    public class CameraShake : MonoBehaviour
+    public class CameraShakeCinemachine : MonoBehaviour
     {
         /// <summary>
         /// - Add noise to cinemachine first
@@ -19,7 +19,7 @@ namespace Meangpu
         [SerializeField] float _defaultInten = 12;
         [SerializeField] float _defaultDuration = .8f;
 
-        public static CameraShake Instance;
+        public static CameraShakeCinemachine Instance;
 
         private void Awake()
         {
