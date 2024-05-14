@@ -23,7 +23,7 @@ namespace Meangpu
         void ResetPath()
         {
             StopAllCoroutines();
-            SetupPathOption();
+            ChangeToRandomTrack();
             StartCoroutine(ChangeTrack());
         }
 
@@ -31,7 +31,12 @@ namespace Meangpu
         {
             if (_isUseWaitRealTime) yield return new WaitForSecondsRealtime(Random.Range(_waitTimeRandom.x, _waitTimeRandom.y));
             else yield return new WaitForSeconds(Random.Range(_waitTimeRandom.x, _waitTimeRandom.y));
+            ChangeToRandomTrack();
+            StartCoroutine(ChangeTrack());
+        }
 
+        private void ChangeToRandomTrack()
+        {
             _cart.m_Position = Random.Range(_positionRandom.x, _positionRandom.y);
             _cart.m_Speed = Random.Range(_speedRandom.x, _speedRandom.y);
 
@@ -42,9 +47,8 @@ namespace Meangpu
             _lastPath = nowPath;
 
             if (_nowAvailablePath.Contains(nowPath)) _nowAvailablePath.Remove(nowPath);
-
-            StartCoroutine(ChangeTrack());
         }
+
 
         private TrackWithTargetLookAt SetupCamAndPathByIndex(int nowIndex)
         {
