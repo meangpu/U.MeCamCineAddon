@@ -16,6 +16,7 @@ namespace Meangpu
 
         public List<TrackWithTargetLookAt> PathOption = new();
         List<TrackWithTargetLookAt> _nowAvailablePath = new();
+        TrackWithTargetLookAt _lastPath;
 
         void Start() => ResetPath();
 
@@ -23,7 +24,6 @@ namespace Meangpu
         {
             StopAllCoroutines();
             SetupPathOption();
-            SetupCamAndPathByIndex(0);
             StartCoroutine(ChangeTrack());
         }
 
@@ -39,6 +39,7 @@ namespace Meangpu
             int nowIndex = Random.Range(0, _nowAvailablePath.Count);
 
             TrackWithTargetLookAt nowPath = SetupCamAndPathByIndex(nowIndex);
+            _lastPath = nowPath;
 
             if (_nowAvailablePath.Contains(nowPath)) _nowAvailablePath.Remove(nowPath);
 
@@ -57,6 +58,10 @@ namespace Meangpu
         {
             _nowAvailablePath.Clear();
             _nowAvailablePath = new(PathOption);
+            if (_nowAvailablePath.Count > 1)
+            {
+                _nowAvailablePath.Remove(_lastPath);
+            }
         }
 
         [System.Serializable]
