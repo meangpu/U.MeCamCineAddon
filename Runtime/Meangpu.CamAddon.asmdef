@@ -2,7 +2,8 @@
     "name": "Meangpu.CamAddon",
     "rootNamespace": "",
     "references": [
-        "GUID:4307f53044263cf4b835bd812fc161a4"
+        "GUID:4307f53044263cf4b835bd812fc161a4",
+        "GUID:a8ffdbcf527bc48df962e130f02cdd7e"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

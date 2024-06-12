@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using VInspector;
 
 namespace Meangpu
 {
@@ -35,6 +36,7 @@ namespace Meangpu
             StartCoroutine(ChangeTrack());
         }
 
+        [Button]
         private void ChangeToRandomTrack()
         {
             _cart.m_Position = Random.Range(_positionRandom.x, _positionRandom.y);
