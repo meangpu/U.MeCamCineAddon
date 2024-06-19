@@ -61,7 +61,6 @@ namespace Meangpu
             TrackWithTargetLookAt nowPath = _nowAvailablePath[nowIndex];
             _cart.SplineSettings.Spline = nowPath.path;
             if (nowPath.targetPrefab != null) _virCam.LookAt = nowPath.targetPrefab;
-
             return nowPath;
         }
 
