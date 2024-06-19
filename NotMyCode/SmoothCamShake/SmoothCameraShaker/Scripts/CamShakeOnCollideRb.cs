@@ -54,7 +54,7 @@ namespace FirstGearGames.SmoothCameraShaker
 
         float GetShakeMultiplier()
         {
-            if (_velocityInfluenceShake) return _mass * _rb.velocity.magnitude * _velocityScaleMul;
+            if (_velocityInfluenceShake) return _mass * _rb.linearVelocity.magnitude * _velocityScaleMul;
             else return _mass;
         }
 
