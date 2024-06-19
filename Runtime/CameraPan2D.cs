@@ -59,7 +59,7 @@ namespace Meangpu
 
             _targetFOV = Mathf.Clamp(_targetFOV, _fovZoomMin, _fovZoomMax);
 
-            _cinemachineCam.m_Lens.OrthographicSize = Mathf.Lerp(_cinemachineCam.m_Lens.OrthographicSize, _targetFOV, Time.deltaTime * _fovZoomSmoothFactor);
+            _cinemachineCam.Lens.OrthographicSize = Mathf.Lerp(_cinemachineCam.Lens.OrthographicSize, _targetFOV, Time.deltaTime * _fovZoomSmoothFactor);
         }
 
         private void HandleCamMovement()
