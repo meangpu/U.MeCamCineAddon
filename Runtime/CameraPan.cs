@@ -1,5 +1,5 @@
 using UnityEngine;
-using Cinemachine;
+using Unity.Cinemachine;
 
 namespace Meangpu
 {
@@ -13,7 +13,7 @@ namespace Meangpu
         ///
         [Header("Cinemachine target for zoom")]
         [SerializeField]
-        CinemachineVirtualCamera _cinemachineCam;
+        CinemachineCamera _cinemachineCam;
 
         [Header("Setting")]
         [SerializeField] Transform _targetTransform;
@@ -59,13 +59,13 @@ namespace Meangpu
         Vector3 _rotateVector = new();
         Vector3 _moveDirection = new();
         Vector3 _inputDirection = new();
-        CinemachineTransposer _cinemachineTranspose;
+        CinemachineFollow _cinemachineTranspose;
 
         private void Start()
         {
             if (_targetTransform == null) _targetTransform = transform;
-            _cinemachineTranspose = _cinemachineCam.GetCinemachineComponent<CinemachineTransposer>();
-            _zoomFollowOffset = _cinemachineTranspose.m_FollowOffset;
+            _cinemachineTranspose = _cinemachineCam.GetComponent<CinemachineFollow>();
+            _zoomFollowOffset = _cinemachineTranspose.FollowOffset;
         }
 
         private void Update()
@@ -102,7 +102,7 @@ namespace Meangpu
 
             _zoomFollowOffset.y = Mathf.Clamp(_zoomFollowOffset.y, _zoomLowerYMin, _zoomLowerYMax);
 
-            _cinemachineTranspose.m_FollowOffset = Vector3.Lerp(_cinemachineTranspose.m_FollowOffset, _zoomFollowOffset, Time.deltaTime * _ZoomLowerYSmoothFactor);
+            _cinemachineTranspose.FollowOffset = Vector3.Lerp(_cinemachineTranspose.FollowOffset, _zoomFollowOffset, Time.deltaTime * _ZoomLowerYSmoothFactor);
         }
 
         private void HandleCameraZoom_MoveForward()
@@ -114,7 +114,7 @@ namespace Meangpu
             if (_zoomFollowOffset.magnitude < _zoomMoveMin) _zoomFollowOffset = _zoomMoveDirection * _zoomMoveMin;
             if (_zoomFollowOffset.magnitude > _zoomMoveMax) _zoomFollowOffset = _zoomMoveDirection * _zoomMoveMax;
 
-            _cinemachineTranspose.m_FollowOffset = Vector3.Lerp(_cinemachineTranspose.m_FollowOffset, _zoomFollowOffset, Time.deltaTime * _ZoomMoveSmoothFactor);
+            _cinemachineTranspose.FollowOffset = Vector3.Lerp(_cinemachineTranspose.FollowOffset, _zoomFollowOffset, Time.deltaTime * _ZoomMoveSmoothFactor);
         }
 
         private void HandleCameraZoom_FOV()
@@ -124,7 +124,7 @@ namespace Meangpu
 
             _targetFOV = Mathf.Clamp(_targetFOV, _fovZoomMin, _fovZoomMax);
 
-            _cinemachineCam.m_Lens.FieldOfView = Mathf.Lerp(_cinemachineCam.m_Lens.FieldOfView, _targetFOV, Time.deltaTime * _fovZoomSmoothFactor);
+            _cinemachineCam.Lens.FieldOfView = Mathf.Lerp(_cinemachineCam.Lens.FieldOfView, _targetFOV, Time.deltaTime * _fovZoomSmoothFactor);
         }
 
         private void HandleCameraZoom_ORTHO()
@@ -134,7 +134,7 @@ namespace Meangpu
 
             _targetFOV = Mathf.Clamp(_targetFOV, _fovZoomMin, _fovZoomMax);
 
-            _cinemachineCam.m_Lens.OrthographicSize = Mathf.Lerp(_cinemachineCam.m_Lens.OrthographicSize, _targetFOV, Time.deltaTime * _fovZoomSmoothFactor);
+            _cinemachineCam.Lens.OrthographicSize = Mathf.Lerp(_cinemachineCam.Lens.OrthographicSize, _targetFOV, Time.deltaTime * _fovZoomSmoothFactor);
         }
 
         private void HandleCamRotate()

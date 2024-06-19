@@ -1,5 +1,5 @@
 using UnityEngine;
-using Cinemachine;
+using Unity.Cinemachine;
 
 namespace Meangpu
 {
@@ -7,7 +7,7 @@ namespace Meangpu
     {
         [Header("Cinemachine target for zoom")]
         [SerializeField]
-        CinemachineVirtualCamera _cinemachineCam;
+        CinemachineCamera _cinemachineCam;
 
         [Header("Setting")]
         [SerializeField] Transform _targetTransform;
